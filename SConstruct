@@ -202,6 +202,7 @@ opts.Add(BoolVariable("use_volk", "Use the volk library to load the Vulkan loade
 opts.Add(BoolVariable("accesskit", "Enable the AccessKit driver for screen reader support", True))
 opts.Add(BoolVariable("angle", "Enable the ANGLE rendering driver for OpenGL ES 3.0 on supported platforms", True))
 opts.Add(BoolVariable("sdl", "Enable the SDL3 input driver", True))
+opts.Add(BoolVariable("gameinput", "Enable the GameInput input driver on supported platforms", False))
 opts.Add(
     EnumVariable(
         "profiler", "Specify the profiler to use", "none", ["none", "tracy", "perfetto", "instruments"], ignorecase=2

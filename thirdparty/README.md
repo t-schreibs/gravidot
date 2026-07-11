@@ -1020,6 +1020,7 @@ Patches:
 - `0007-shield-duplicate-macos.patch` ([GH-115510](https://github.com/godotengine/godot/pull/115510))
 - `0008-fix-linux-joycon-serial-num.patch` ([GH-113873](https://github.com/godotengine/godot/pull/113873))
 - `0009-update-device-blocklist.patch` ([GH-119403](https://github.com/godotengine/godot/pull/119403))
+- `0010-gameinput-fixes.patch` ([GH-116055](https://github.com/godotengine/godot/pull/116055))
 
 
 ## spirv-cross

@@ -273,6 +273,11 @@ def get_opts():
             "Path to the PIX runtime distribution (optional for D3D12)",
             os.path.join(deps_folder, "pix"),
         ),
+        (
+            "gameinput_path",
+            "Path to the GameInput libraries",
+            os.path.join(deps_folder, "gameinput"),
+        ),
     ]
 
 
@@ -292,6 +297,7 @@ def get_flags():
     return {
         "arch": arch,
         "d3d12": True,
+        "gameinput": True,
         "supported": ["d3d12", "dcomp", "library", "mono", "xaudio2"],
     }
 
@@ -507,6 +513,14 @@ def configure_msvc(env: "SConsEnvironment"):
 
     if env["sdl"]:
         env.Append(CPPDEFINES=["SDL_ENABLED"])
+
+    if env["gameinput"]:
+        if env["sdl"]:
+            check_gameinput_installed(env)
+            # Do nothing else, GameInput is only used inside SDL, so the rest is handled in "drivers/sdl/SCsub".
+        else:
+            print("GameInput API is enabled, but SDL was explicitly disabled. Disabling GameInput API.")
+            env["gameinput"] = False
 
     if env["d3d12"]:
         check_d3d12_installed(env, env["arch"] + "-msvc")
@@ -940,6 +954,14 @@ def configure_mingw(env: "SConsEnvironment"):
     if env["sdl"]:
         env.Append(CPPDEFINES=["SDL_ENABLED"])
 
+    if env["gameinput"]:
+        if env["sdl"]:
+            check_gameinput_installed(env)
+            # Do nothing else, GameInput is only used inside SDL, so the rest is handled in "drivers/sdl/SCsub".
+        else:
+            print("GameInput API is enabled, but SDL was explicitly disabled. Disabling GameInput API.")
+            env["gameinput"] = False
+
     if env["d3d12"]:
         if env["use_llvm"]:
             check_d3d12_installed(env, env["arch"] + "-llvm")
@@ -1053,5 +1075,15 @@ def check_d3d12_installed(env, suffix):
             "See the documentation for more information:\n"
             "\thttps://docs.godotengine.org/en/latest/engine_details/development/compiling/compiling_for_windows.html\n"
             "Alternatively, disable this driver by compiling with `d3d12=no` explicitly."
+        )
+        sys.exit(255)
+
+
+def check_gameinput_installed(env):
+    if not os.path.exists(env["gameinput_path"]):
+        print_error(
+            "The GameInput API dependencies are not installed.\n"
+            "You can install them by running `python misc\\scripts\\install_gameinput_windows.py`.\n"
+            "Alternatively, disable this driver by compiling with `gameinput=no` explicitly."
         )
         sys.exit(255)
