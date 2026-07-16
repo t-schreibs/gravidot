@@ -25,7 +25,7 @@
 
 #ifdef HAVE_GAMEINPUT_H
 
-#include <gameinput.h>
+#include <GameInput.h>
 
 #ifndef GAMEINPUT_API_VERSION
 #define GAMEINPUT_API_VERSION 0
